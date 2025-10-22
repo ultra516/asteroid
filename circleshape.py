@@ -16,7 +16,7 @@ class CircleShape(pygame.sprite.Sprite):
     def draw(self, screen):
         pygame.draw.polygon(
             screen,                 # The screen surface to draw on
-            "white",                # The color
+            "green",                # The color
             self.triangle(),        # The list of points
             2                       # The line width
         )
