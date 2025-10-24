@@ -8,6 +8,8 @@ from player import Player
 from circleshape import CircleShape
 from asteroids import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
+
 def main():
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -18,9 +20,11 @@ def main():
     updatable = pygame.sprite.Group()
     drawables = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
     Player.containers = (updatable, drawables)
     Asteroid.containers = (asteroids, updatable, drawables)
     AsteroidField.containers = (updatable)
+    Shot.container = (shots, updatable, drawables)
     asteroid_field = AsteroidField()
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     while True:
