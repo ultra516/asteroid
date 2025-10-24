@@ -6,6 +6,8 @@ class Player(CircleShape):
     def __init__(self, x, y):
          super().__init__(x, y, PLAYER_RADIUS)
          self.rotation = 0
+         self.shoot_cooldown = 0.25  # seconds between shots
+         self.time_since_last_shot = 0  # timer accumulator
     
     def update(self, dt):
         keys = pygame.key.get_pressed()
@@ -18,14 +20,19 @@ class Player(CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
-        if keys[pygame.K_SPACE]:
+        self.time_since_last_shot += dt
+        if keys[pygame.K_SPACE] and self.time_since_last_shot >= self.shoot_cooldown:
             self.shoot()
+            self.time_since_last_shot = 0
 
 
     def shoot(self):
         direction = pygame.Vector2(0, 1).rotate(self.rotation)
         velocity = direction * PLAYER_SHOOT_SPEED
         shot = Shot(self.position.copy(), velocity)
+        if hasattr(Shot, 'containers'):
+            for group in Shot.containers:
+                group.add(shot)
         
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
