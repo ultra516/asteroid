@@ -1,12 +1,12 @@
 import pygame
 from circleshape import CircleShape
 from shot import Shot
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN_SECONDS
 class Player(CircleShape):
     def __init__(self, x, y):
          super().__init__(x, y, PLAYER_RADIUS)
          self.rotation = 0
-         self.shoot_cooldown = 0.25  # seconds between shots
+         self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN_SECONDS
          self.time_since_last_shot = 0  # timer accumulator
     
     def update(self, dt):

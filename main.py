@@ -3,6 +3,7 @@
 # throughout this file
 import sys
 import pygame
+from logger import log_state, log_event
 from constants import *
 from player import Player
 from circleshape import CircleShape
@@ -24,11 +25,12 @@ def main():
     
     Player.containers = (updatable, drawables)
     Asteroid.containers = (asteroids, updatable, drawables)
-    AsteroidField.containers = (updatable)
-    Shot.container = (shots, updatable, drawables)
+    AsteroidField.containers = (updatable,)
+    Shot.containers = (shots, updatable, drawables)
     asteroid_field = AsteroidField()
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     while True:
+        log_state()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -37,6 +39,14 @@ def main():
             if asteroid.collides_with(player):
                 print("Game over!")
                 sys.exit()
+        
+        for asteroid in asteroids:
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    log_event("asteroid_shot")
+                    asteroid.split()
+                    shot.kill()
+
         screen.fill((0,0,0))
         for drawable in drawables:
             drawable.draw(screen)
